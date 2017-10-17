@@ -6,7 +6,7 @@ using Anagram.Models;
 namespace Anagram.Tests
 {
   [TestClass]
-  public class AnagramTest
+  public class AnagramTest : IDisposable
   {
     [TestMethod]
     public void IsAnagram_WordsAreUnequal_False()
@@ -58,6 +58,11 @@ namespace Anagram.Tests
       List<string> matchedAnagrams = new List<string>{"tab", "table"};
 
       CollectionAssert.AreEqual(matchedAnagrams, testSet.GetAllPartialAnagrams());
+    }
+
+    public void Dispose()
+    {
+      Console.WriteLine("disposed!");
     }
   }
 }
