@@ -1,44 +1,52 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anagram.Models
 {
   public class WordSet
   {
     private string _source;
-    private string _target;
+    private List<string> _targetList;
 
-    public WordSet(string a, string b)
+    public WordSet(string source, List<string> targetList)
     {
-      _source = a;
-      _target = b;
+      _source = source;
+      _targetList = targetList;
     }
 
     public string GetSource(){return _source;}
-    public string GetTarget(){return _target;}
+    public List<string> GetTarget(){return _targetList;}
 
-    public bool IsAnagram()
+    public List<string> GetAllAnagrams()
     {
-      _source = _source.ToLower();
-      _target = _target.ToLower();
+      List<string> matchedAnagrams = new List<string>{};
+      foreach (string word in _targetList)
+      {
+        if(IsAnagram(_source, word))
+        {
+          matchedAnagrams.Add(word);
+        }
+      }
+      return matchedAnagrams;
+    }
 
-      Console.WriteLine(_source + " " + _target);
-      Console.WriteLine(_source == _target);
-      Console.WriteLine(string.ReferenceEquals(_source, _target));
-      if (_source == _target)
-      //if (string.ReferenceEquals(_source, _target))
+    public static bool IsAnagram(string source, string target)
+    {
+      source = source.ToLower();
+      target = target.ToLower();
+
+      if (source == target)
       {
         return false;
       }
       else
       {
-        char[] a = _source.ToCharArray();
-        char[] b = _target.ToCharArray();
+        char[] a = source.ToCharArray();
+        char[] b = target.ToCharArray();
         Array.Sort(a);
         Array.Sort(b);
-        Console.WriteLine(a);
-        Console.WriteLine(b);
-        if (a == b)
+        if (a.SequenceEqual(b))
         {return true;}
         else
         {return false;}

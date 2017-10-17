@@ -11,20 +11,27 @@ namespace Anagram.Tests
     [TestMethod]
     public void IsAnagram_IsFunctionBeingCalled_ReturnFalse()
     {
-      WordSet testObj = new WordSet("bAcoN","cat");
-      Assert.AreEqual(false, testObj.IsAnagram());
+      Assert.AreEqual(false, WordSet.IsAnagram("bAcoN", "cat"));
     }
     [TestMethod]
     public void IsAnagram_AreStringComparisonWorking_FalseCase()
     {
-      WordSet testObj = new WordSet("bAcoN","baCOn");
-      Assert.AreEqual(false, testObj.IsAnagram());
+      Assert.AreEqual(false, WordSet.IsAnagram("bAcoN", "baCOn"));
     }
     [TestMethod]
     public void IsAnagram_AreStringComparisonWorking_TrueCase()
     {
-      WordSet testObj = new WordSet("bAt","Tab");
-      Assert.AreEqual(true, testObj.IsAnagram());
+      Assert.AreEqual(true, WordSet.IsAnagram("bAt", "Tab"));
+    }
+
+    [TestMethod]
+    public void GetAllAnagrams_TestOneToManyStrings_ReturnListOfMatches()
+    {
+      List<string> testStrings = new List<string>{"tab", "cat", "dog"};
+      WordSet testSet = new WordSet("bat", testStrings);
+      List<string> matchedAnagrams = new List<string>{"tab"};
+
+      CollectionAssert.AreEqual(matchedAnagrams, testSet.GetAllAnagrams());
     }
   }
 }
