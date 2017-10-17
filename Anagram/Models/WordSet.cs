@@ -31,6 +31,19 @@ namespace Anagram.Models
       return matchedAnagrams;
     }
 
+    public List<string> GetAllPartialAnagrams()
+    {
+      List<string> matchedAnagrams = new List<string>{};
+      foreach (string word in _targetList)
+      {
+        if(IsPartialAnagram(_source, word))
+        {
+          matchedAnagrams.Add(word);
+        }
+      }
+      return matchedAnagrams;
+    }
+
     public static bool IsAnagram(string source, string target)
     {
       source = source.ToLower();
@@ -53,5 +66,20 @@ namespace Anagram.Models
       }
     }
 
+    public static bool IsPartialAnagram(string source, string target)
+    {
+      int successLength = target.Length - source.Length;
+      foreach (char sourceLetter in source) {
+        for (int i = 0; i < target.Length; i++)
+        {
+          if (sourceLetter == target[i])
+          {
+            target = target.Remove(i, 1);
+            break;
+          }
+        }
+      }
+      return (successLength == target.Length);
+    }
   }
 }

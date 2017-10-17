@@ -9,12 +9,12 @@ namespace Anagram.Tests
   public class AnagramTest
   {
     [TestMethod]
-    public void IsAnagram_IsFunctionBeingCalled_ReturnFalse()
+    public void IsAnagram_WordsAreUnequal_False()
     {
       Assert.AreEqual(false, WordSet.IsAnagram("bAcoN", "cat"));
     }
     [TestMethod]
-    public void IsAnagram_AreStringComparisonWorking_FalseCase()
+    public void IsAnagram_WordsAreEqual_False()
     {
       Assert.AreEqual(false, WordSet.IsAnagram("bAcoN", "baCOn"));
     }
@@ -32,6 +32,32 @@ namespace Anagram.Tests
       List<string> matchedAnagrams = new List<string>{"tab"};
 
       CollectionAssert.AreEqual(matchedAnagrams, testSet.GetAllAnagrams());
+    }
+
+    [TestMethod]
+    public void IsPartialAnagram_StringHasDuplicateLetters_False()
+    {
+      Assert.AreEqual(false, WordSet.IsPartialAnagram("hath", "that"));
+    }
+    [TestMethod]
+    public void IsPartialAnagram_StringIsSubsetOfTarget_True()
+    {
+      Assert.AreEqual(true, WordSet.IsPartialAnagram("hat", "that"));
+    }
+    [TestMethod]
+    public void IsPartialAnagram_StringHasMoreLettersThanTarget_False()
+    {
+      Assert.AreEqual(false, WordSet.IsPartialAnagram("that", "hat"));
+    }
+
+    [TestMethod]
+    public void GetAllPartialAnagrams_TestOneToManyStrings_ReturnListOfPartialMatches()
+    {
+      List<string> testStrings = new List<string>{"tab", "table", "dog"};
+      WordSet testSet = new WordSet("bat", testStrings);
+      List<string> matchedAnagrams = new List<string>{"tab", "table"};
+
+      CollectionAssert.AreEqual(matchedAnagrams, testSet.GetAllPartialAnagrams());
     }
   }
 }
